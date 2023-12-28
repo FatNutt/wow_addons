@@ -1,6 +1,9 @@
 # FatNutt's Wow Addons
 
 [![world_of_warcraft](https://wow.zamimg.com/uploads/blog/images/14803-blizzcon-2018-warcraft-virtual-ticket-items-wow-classic-demo-war-banner-war.jpg)](https://https://worldofwarcraft.blizzard.com/en-us/)
+
+<br/>
+
 All of my addons for World of Warcraft can be found here.
 All code is under an MIT [license](LICENSE).
 
