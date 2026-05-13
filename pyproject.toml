@@ -3,15 +3,18 @@ requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [project]
-name = "mono-repo-template"
-version = "0.1.0"
+name = "wow_addons"
+version = "0.0.0"
 description = ""
 authors = [{ name = "FatNutt", email = "fatnutt@pm.me" }]
 requires-python = ">=3.14,<4.0"
 dependencies = ["pre-commit (>=4.5.1,<5.0.0)", "isort (>=8.0.0,<9.0.0)", "ruff (>=0.15.2,<0.16.0)"]
 
-[project.scripts]
-# openwrt = 'scripts.openwrt.cli:run'
+[tool.poetry]
+packages = [{ include = 'scripts' }]
+
+[tool.poetry.scripts]
+link-addon = 'scripts.symlink_addon:main'
 
 [tool.ruff.format]
 docstring-code-format = true
