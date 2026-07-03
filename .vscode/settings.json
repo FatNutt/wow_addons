@@ -2,6 +2,8 @@
     "python-env.workspaceSearchPaths": [
         "./**/.venv"
     ],
+    "Lua.diagnostics.globals": [
+    ],
     "Lua.runtime.version": "Lua 5.1",
     "Lua.runtime.builtin": {
         "basic": "disable",
@@ -17,11 +19,5 @@
     "Lua.workspace.library": [
         "~\\.vscode-oss\\extensions\\ketho.wow-api-0.22.3\\Annotations\\Core"
     ],
-    "Lua.diagnostics.globals": [
-        "Settings",
-        "MinimalSliderWithSteppersMixin",
-        "RAID_CLASS_COLORS",
-        "CompactUnitFrame_UpdateName",
-        "SlashCmdList"
-    ]
+    "stylua.targetReleaseVersion": "latest"
 }
