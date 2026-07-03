@@ -1,0 +1,14 @@
+# BigWigsMods/packager output
+.release/
+
+# External libraries (fetched by packager from .pkgmeta)
+Libs/
+
+# IDE and editor files (uncomment .vscode/ if you prefer not to track IDE config)
+# .vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db

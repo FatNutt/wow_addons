@@ -1,0 +1,103 @@
+# ============================================================================
+# .pkgmeta — BigWigsMods/packager Configuration
+# ============================================================================
+# This YAML file tells the BigWigsMods/packager how to build your addon.
+# It controls: package naming, external library fetching, file exclusions,
+# and nolib package generation.
+#
+# The packager runs as a GitHub Action (BigWigsMods/packager@v2) triggered
+# by pushing a git tag: git tag v1.0.0 && git push --tags
+#
+# Reference: https://github.com/BigWigsMods/packager/wiki/Preparing-the-PackageMeta-File
+# ============================================================================
+
+# ---- Package Name ----
+# The folder name inside the zip file. Players see this in /addons.
+# Must match your .toc filename (without the extension).
+package-as: WarGames
+
+# ---- External Libraries ----
+# These are checked out from their repositories at package time.
+# They are NOT committed to your git repo — add Libs/ to .gitignore.
+# The packager downloads them fresh for every build.
+#
+# Format:
+#   local/path:
+#     url: repository URL
+#     tag: latest | specific-tag
+#
+# Common sources:
+#   - https://repos.curseforge.com/wow/SLUG/trunk/...  (CurseForge SVN)
+#   - https://github.com/USER/REPO                     (GitHub)
+externals:
+  Libs/LibStub:
+    url: https://repos.curseforge.com/wow/libstub/trunk
+    tag: latest
+  Libs/CallbackHandler-1.0:
+    url: https://repos.curseforge.com/wow/callbackhandler/trunk/CallbackHandler-1.0
+    tag: latest
+
+  # ---- Uncomment libraries as needed ----
+  # Ace3 suite (popular framework — adds ~200KB):
+  # Libs/AceAddon-3.0:
+  #   url: https://repos.curseforge.com/wow/ace3/trunk/AceAddon-3.0
+  #   tag: latest
+  # Libs/AceDB-3.0:
+  #   url: https://repos.curseforge.com/wow/ace3/trunk/AceDB-3.0
+  #   tag: latest
+  # Libs/AceEvent-3.0:
+  #   url: https://repos.curseforge.com/wow/ace3/trunk/AceEvent-3.0
+  #   tag: latest
+  # Libs/AceConsole-3.0:
+  #   url: https://repos.curseforge.com/wow/ace3/trunk/AceConsole-3.0
+  #   tag: latest
+  # Libs/AceConfig-3.0:
+  #   url: https://repos.curseforge.com/wow/ace3/trunk/AceConfig-3.0
+  #   tag: latest
+
+  # Minimap button (if not using Addon Compartment exclusively):
+  # Libs/LibDataBroker-1.1:
+  #   url: https://github.com/tekkub/libdatabroker-1-1
+  #   tag: latest
+  # Libs/LibDBIcon-1.0:
+  #   url: https://repos.curseforge.com/wow/libdbicon-1-0/trunk/LibDBIcon-1.0
+  #   tag: latest
+
+# ---- Generate -nolib Package ----
+# Creates a second zip without embedded libraries. Users who already have
+# the libs from another addon can use this smaller package.
+enable-nolib-creation: yes
+
+# ---- Files to Exclude from Package ----
+# These files exist in git but should NOT be in the player-facing zip.
+ignore:
+  - .github
+  - .vscode
+  - .luacheckrc
+  - .luarc.json
+  - .editorconfig
+  - .stylua.toml
+  - .gitignore
+  - README.md
+  - CHANGELOG.md
+  - CLAUDE.md
+  - .cursorrules
+  - .claude
+  - setup.sh
+  - tests/
+
+# ---- Manual Changelog ----
+# Use your CHANGELOG.md instead of auto-generating from git commits.
+# Uncomment if you maintain a manual changelog:
+# manual-changelog:
+#   filename: CHANGELOG.md
+#   markup-type: markdown
+
+# ---- CurseForge Dependency Metadata ----
+# Tells CurseForge about your addon's relationships with other addons.
+# embedded-libraries:
+#   - libstub
+#   - callbackhandler
+# optional-dependencies:
+#   - masque
+#   - elvui

@@ -1,0 +1,22 @@
+name: Lint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  luacheck:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Luacheck
+        uses: nebularg/actions-luacheck@v1
+        with:
+          args: -q
+          # The .luacheckrc in the repo root configures
+          # WoW globals, ignored patterns, and excluded dirs.

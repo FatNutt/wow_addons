@@ -1,0 +1,89 @@
+## ============================================================================
+## WarGames.toc — Table of Contents
+## ============================================================================
+## This file tells WoW which Lua files to load and in what order.
+## It also provides metadata displayed in the addon list.
+##
+## IMPORTANT: The ## Interface line MUST match the current game version.
+## Addons with Interface below 120000 will NOT load in Midnight without
+## the player manually enabling "Load out of date addons."
+##
+## Reference: https://warcraft.wiki.gg/wiki/TOC_format
+## ============================================================================
+
+## ---- Required Metadata ----
+## Interface is the game version this addon targets.
+## 120001 = Patch 12.0.1 (Midnight). Update this when new patches ship.
+## You can list multiple versions: 120001, 110002, 40402
+## Interface: 20505
+## Title: WarGames
+## Notes: WarGames is a collection of minigames to help pass downtime.
+## Author: FatNutt
+## Version: @project-version@
+
+## ---- SavedVariables ----
+## These global Lua variable names are persisted across sessions.
+## The client reads/writes them from WTF/Account/.../SavedVariables/WarGames.lua
+## They are NOT available until ADDON_LOADED fires for YOUR addon.
+## SavedVariables: WarGamesDB
+## Per-character saved data (uncomment if needed):
+## SavedVariablesPerCharacter: WarGamesCharDB
+
+## ---- Addon Compartment (Minimap Dropdown) ----
+## Introduced in 10.1.0. Adds your addon to the minimap addon dropdown.
+## Functions MUST be global (not local). Only AddonCompartmentFunc is required.
+## AddonCompartmentFunc: WarGames_OnCompartmentClick
+## AddonCompartmentFuncOnEnter: WarGames_OnCompartmentEnter
+## AddonCompartmentFuncOnLeave: WarGames_OnCompartmentLeave
+
+## ---- Icon ----
+## IconTexture is shown in the addon list and the Addon Compartment dropdown.
+## Use a standard WoW icon path or a custom texture in your addon folder.
+## IconTexture: Interface\AddOns\WarGames\icon
+
+## ---- Optional Dependencies ----
+## These addons load BEFORE yours if present, but yours still loads if they're missing.
+## List libraries and addons you integrate with.
+## OptionalDeps: LibStub, CallbackHandler-1.0
+
+## ---- Distribution Platform IDs ----
+## These are used by BigWigsMods/packager to upload to the correct project.
+## Get your IDs from each platform's project page.
+## Replace with your real IDs when you create your projects.
+## X-Curse-Project-ID: 0
+## X-Wago-ID: CHANGEME
+## X-WoWI-ID: 0
+
+## ---- Category ----
+## Category: Miscellaneous
+
+## ---- Custom Metadata (Optional) ----
+## You can define arbitrary X- fields for use in your addon code.
+## Read them with C_AddOns.GetAddOnMetadata("WarGames", "X-MyField")
+## X-Category: Interface Enhancements
+
+## ============================================================================
+## File Load Order
+## ============================================================================
+## Files are loaded top-to-bottom, synchronously, before the game world appears.
+## Each file receives (addonName, namespace) as its ... varargs.
+##
+## RULE: Libraries first, then init, then features, then config.
+## This ensures the namespace is set up before feature code runs.
+## ============================================================================
+
+## ---- Libraries ----
+## These lines are wrapped in @no-lib-strip@ so the BigWigs packager
+## removes them in -nolib builds (where a shared lib addon provides them).
+#@no-lib-strip@
+## Libs\LibStub\LibStub.lua
+## Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+#@end-no-lib-strip@
+
+## ---- Addon Files ----
+## Init.lua sets up the namespace and handles ADDON_LOADED/PLAYER_LOGIN.
+## Core.lua contains the main feature logic.
+## Config.lua registers the Settings panel.
+Init.lua
+Core.lua
+Config.lua

@@ -1,0 +1,87 @@
+# ============================================================================
+# release.yml — GitHub Actions: Package & Release
+# ============================================================================
+# This workflow runs when you push a git tag. It:
+#   1. Checks out your code (with full git history for changelog generation)
+#   2. Runs Luacheck to catch any issues
+#   3. Packages the addon using BigWigsMods/packager
+#   4. Uploads to CurseForge, Wago, WoWInterface, and GitHub Releases
+#
+# HOW TO RELEASE:
+#   git tag v1.0.0
+#   git push --tags
+#
+# The packager automatically:
+#   - Replaces @project-version@ tokens in your code
+#   - Fetches external libraries from .pkgmeta
+#   - Generates a changelog from git history
+#   - Creates the zip file
+#   - Uploads to all configured platforms
+#
+# SETUP REQUIRED:
+#   Add these secrets in your GitHub repo (Settings > Secrets > Actions):
+#   - CF_API_KEY:     CurseForge API token (from Author dashboard)
+#   - WAGO_API_TOKEN: Wago Addons API key (from addons.wago.io/account/apikeys)
+#   - WOWI_API_TOKEN: WoWInterface API token (from file management)
+#   GitHub Releases uses the built-in GITHUB_TOKEN (no setup needed).
+#
+# PERMISSIONS:
+#   Go to Settings > Actions > General > Workflow permissions
+#   and select "Read and write permissions" for GITHUB_TOKEN to work.
+#
+# Reference: https://github.com/BigWigsMods/packager/wiki/GitHub-Actions-workflow
+# ============================================================================
+
+name: Package and Release
+
+# Trigger on any tag push. Common patterns:
+#   v1.0.0, v1.2.3-beta, 2026.03.13
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  # ---- Lint (optional but recommended) ----
+  # Catch issues before packaging. If lint fails, the release still proceeds
+  # (continue-on-error: true), but you'll see the warnings.
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Luacheck
+        uses: nebularg/actions-luacheck@v1
+        with:
+          args: "--no-color -q"
+          annotate: warning
+
+  # ---- Package and Upload ----
+  release:
+    runs-on: ubuntu-latest
+    needs: lint  # Wait for lint to finish (but don't block on failure)
+    if: always() && needs.lint.result != 'cancelled'
+
+    env:
+      # These secrets are used by the packager to upload to each platform.
+      # If a secret is not set, that platform is simply skipped.
+      CF_API_KEY: ${{ secrets.CF_API_KEY }}
+      WOWI_API_TOKEN: ${{ secrets.WOWI_API_TOKEN }}
+      WAGO_API_TOKEN: ${{ secrets.WAGO_API_TOKEN }}
+      GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # CRITICAL: fetch-depth: 0 downloads the full git history.
+          # The packager needs this to generate changelogs between tags.
+          # Without it, you get an empty changelog.
+          fetch-depth: 0
+
+      - name: Package and Release
+        uses: BigWigsMods/packager@v2
+        # The packager auto-detects the game version from your TOC's
+        # ## Interface: line. No -g flag needed for single-game addons.
+        # For multi-game addons, add: with: args: -g retail
